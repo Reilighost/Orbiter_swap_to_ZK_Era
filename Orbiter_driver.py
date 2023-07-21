@@ -317,6 +317,10 @@ def process_profile(idx):
         logger.info("Done!")
         driver.close()
 
+        sleep = round(random.uniform(min_delay, max_delay))
+        logger.info(f"Wait {sleep} before next swap")
+        time.sleep(sleep)
+
 
 logger_junior = setup_logger("THREAD LOGING")
 
@@ -324,9 +328,6 @@ with ThreadPoolExecutor(max_workers=1) as executor:  # Adjust max_workers as nee
     # Submit tasks to executor
     futures = {}
     for idx in indices:
-        sleep = round(random.uniform(min_delay, max_delay))
-        logger_junior.info(f"Wait {sleep} before next swap")
-        time.sleep(sleep)
         futures[executor.submit(process_profile, idx)] = idx
 
     # Collect results as they become available
